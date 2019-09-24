@@ -75,7 +75,7 @@
                 <img :src="bookinfo.imgs" alt />
               </div>
               <div class="recommend-list-title">{{bookinfo.bookname}}</div>
-              <div class="recommend-list-author">{{bookinfo.author}}} 著</div>
+              <div class="recommend-list-author">{{bookinfo.author}} 著</div>
               <div class="recommend-list-price">￥{{bookinfo.price}}起</div>
             </li>
           </ul>
@@ -430,7 +430,6 @@ ul li {
 .recommend-list .recommend-list-price {
   width: 100px;
   margin: 0 auto;
-  margin-top: 24px;
   font-size: 17px;
   color: #bf7f5f;
 }

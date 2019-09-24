@@ -3,7 +3,7 @@ class CateModel extends DbBase {
     constructor() {
         super();
         this.books = 'books';
-        this.goodstable = 'goods';
+        this.soldgoods = 'sold';
     }
 
     addgoods(cateinfo, callback) {
@@ -45,6 +45,34 @@ class CateModel extends DbBase {
         })
     }
 
+    getSoldGoods(callback) {
+        let sql = `SELECT * FROM ${this.soldgoods}`;
+        this.mydb.query(sql, (err, results) => {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                callback(results);
+            }
+            this.mydb.end();
+        })
+    }
+
+
+    searchSoldGoods(info, callback) {
+        let sql = `SELECT * FROM ${this.soldgoods} WHERE 1 `;
+        if (info) {
+            sql += `and bookname like "%${info}%"`;
+        }
+        this.mydb.query(sql, (err, results) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(results);
+            }
+            this.mydb.end();
+        })
+    }
 
     getGoodsByGid(bid, callback) {
         let sql = `SELECT * FROM ${this.books} WHERE bid = ${bid}`;

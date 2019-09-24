@@ -16,40 +16,48 @@ export default new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [{
-        path: '/Index',
-        component: Index
-    },
-    {
-        path: '/',
-        component: Index
-    },
-    {
-        path: '/newbook',
-        component: newbook
-    },
-    {
-        path: '/loginRegister',
-        component: loginRegister
-    },
-    {
-        path: '/aregister',
-        component: aregister
-    },
-    {
-        path: '/search',
-        component: () => import("./views/Search.vue")
-    },
-    {
-        path: '/item',
-        component: () => import("./views/Item.vue")
-    },
-    {
-        path: '/details',
-        component: details
-    },
-    {
-        path: '/home',
-        component: Home
-    }
+            path: '/Index',
+            component: Index
+        },
+        {
+            path: '/',
+            component: Index
+        },
+        {
+            path: '/newbook',
+            component: newbook
+        },
+        {
+            path: '/loginRegister',
+            component: loginRegister
+        },
+        {
+            path: '/aregister',
+            component: aregister
+        },
+        {
+            path: '/search',
+            component: () =>
+                import ("./views/Search.vue")
+        },
+        {
+            path: '/item',
+            component: () =>
+                import ("./views/Item.vue")
+        },
+        {
+            path: '/details',
+            component: details
+        },
+        {
+            path: '/home',
+            component: Home
+        },
+        { //购物车路由
+            path: '/shop',
+            name: 'shop',
+            component: () =>
+                import ("./views/shop.vue")
+        },
     ]
 })
