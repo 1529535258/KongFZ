@@ -292,6 +292,7 @@ export default {
   },
   created: function() {
     this.axiosGet();
+    // console.log(localStorage)
   }
   // beforemout: function() {
   //   this.axiosGet();
@@ -307,9 +308,9 @@ a {
 li {
   list-style: none;
 }
-/* body {
-  background-color: #f7f7f6;
-} */
+body {
+  /* background-color: #f7f7f6; */
+}
 @media only screen and (min-width: 1200px) {
   .index {
     width: 1200px;

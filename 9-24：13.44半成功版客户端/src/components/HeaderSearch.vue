@@ -1,7 +1,7 @@
 <template>
   <div class="header-search-box">
     <div class="header-search">
-      <a href class="logo-text" @click="toIndex">
+      <a href class="logo-text">
         <img src="../assets/logo/logo-220.png" alt="孔夫子旧书网-网上买书卖书、古旧书收藏品交易平台" class="logo-220" />
         <img src="../assets/logo/logo-250.png" alt="孔夫子旧书网-网上买书卖书、古旧书收藏品交易平台" class="logo-250" />
       </a>
@@ -30,9 +30,6 @@ export default {
     };
   },
   methods: {
-    toIndex: function() {
-      this.$router.push({path:"/index"});
-    },
     search: function() {
       this.info = this.$refs.searchinfo.value;
       // console.log(this.info);
@@ -43,7 +40,7 @@ export default {
         });
       // this.axiosFindInfo();
     },
-    onEnter: function() {
+    onEnter:function() {
       console.log(this.$refs.searchinfo.value);
     },
     axiosFindInfo: function() {

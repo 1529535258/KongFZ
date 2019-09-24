@@ -50,16 +50,15 @@ export default {
   data() {
     var validatePass2 = (rule, value, callback) => {
       let reg = /[\u4e00-\u9fa5_a-zA-Z0-9_]{2,6}/;
-      var a=this.ruleForm.checkPass;
+      var a = this.ruleForm.checkPass;
       console.log(a.length);
       if (value === "") {
         callback(new Error("请输入用户名"));
-      }
-       else if (!reg.test(this.ruleForm.checkPass)||this.tips==-1) {
+      } else if (!reg.test(this.ruleForm.checkPass) || this.tips == -1) {
         callback(new Error("用户名不存在"));
-      }else if(a.length<2||a.length>6){
+      } else if (a.length < 2 || a.length > 6) {
         callback(new Error("用户名太长"));
-      }else{
+      } else {
         callback();
       }
     };
@@ -70,7 +69,7 @@ export default {
         console.log(this.tips);
       } else {
         let reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
-        if(!reg.test(this.ruleForm.passwd)||this.tips==0){
+        if (!reg.test(this.ruleForm.passwd) || this.tips == 0) {
           callback(new Error("密码错误"));
         }
         callback();
@@ -78,11 +77,11 @@ export default {
     };
 
     return {
-      username:"",
+      username: "",
       flag: false,
       num: 0,
       theight: "0px",
-      tips:5,
+      tips: 5,
       ruleForm: {
         checkPass: "",
         passwd: ""
@@ -93,28 +92,28 @@ export default {
       }
     };
   },
-   watch:{
-        'ruleForm.passwd':function(){
-          this.myaxios();
-        },
-        'ruleForm.checkPass':function(){
-          this.myaxios();
-        }
-      },
+  watch: {
+    "ruleForm.passwd": function() {
+      this.myaxios();
+    },
+    "ruleForm.checkPass": function() {
+      this.myaxios();
+    }
+  },
   methods: {
-    myaxios:function(){
-        this.axios
-            .post("/user/login", {
-              username: this.ruleForm.checkPass,
-              passwd: this.ruleForm.passwd
-            })
-            .then((response)=>{
-              this.tips=response.data.code;
-              this.username = response.data.Info[0].username;
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
+    myaxios: function() {
+      this.axios
+        .post("/user/login", {
+          username: this.ruleForm.checkPass,
+          passwd: this.ruleForm.passwd
+        })
+        .then(response => {
+          this.tips = response.data.code;
+          this.username = response.data.Info[0].username;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
     display: function() {
       this.flag = true;
@@ -129,10 +128,12 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-        this.myaxios();
-         if(this.tips==1){
-                 this.$router.push({path:`/index`}); //跳转带知道路由
-              }
+          this.myaxios();
+          if (this.tips == 1) {
+            console.log(this.username);
+            localStorage.setItem("username", this.username);
+            this.$router.push({ path: "/index" }); //跳转带知道路由
+          }
         } else {
           console.log("error submit!!");
           return false;
@@ -143,10 +144,10 @@ export default {
       this.$refs[formName].resetFields();
     }
   },
-  created(){
-      this.$emit("mychange",1);
-      console.log("我是登录");
-    }
+  created() {
+    this.$emit("mychange", 1);
+    console.log("我是登录");
+  }
 };
 </script>
 

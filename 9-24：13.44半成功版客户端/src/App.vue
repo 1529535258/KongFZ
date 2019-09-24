@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <Nav-Menu></Nav-Menu>
+    <login-Nav-Menu v-if="istrue"></login-Nav-Menu>
+    <Nav-Menu v-else></Nav-Menu>
     <Header-Search></Header-Search>
-    <Back-Top :bottom="100"></Back-Top>
+    <Back-Top></Back-Top>
     <!-- <Nav></Nav> -->
     <router-view />
   </div>
@@ -10,7 +11,14 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      istrue: true,
+    };
+  },
+  methods: {
+
+  },
+  created() {
   }
 };
 </script>

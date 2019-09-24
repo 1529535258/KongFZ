@@ -29,6 +29,7 @@ Vue.component("breath",()=>import("./components/breath.vue"));
 Vue.component("mmassage",()=>import("./components/mmassage.vue"));
 
 Vue.component("Nav-Menu", () => import("./components/NavMenu.vue"));
+Vue.component("login-Nav-Menu", () => import("./components/LoginNavMenu.vue"));
 Vue.component("Header-Search", () => import("./components/HeaderSearch.vue"));
 Vue.component("Back-Top", () => import("./components/BackTop.vue"));
 

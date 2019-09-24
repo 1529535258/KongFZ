@@ -5,21 +5,6 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
-        shop_list: [{
-                id: 1,
-                src: "https://www.kfzimg.com/sw/kfzimg/303/3a5332fe7705876d_s.jpg",
-                name: "坏血：“女版乔布斯”如何利用欲望和贪婪打造出硅谷商业神话",
-                price: 20.1,
-                count: 1
-            },
-            {
-                id: 2,
-                src: "https://www.kfzimg.com/sw/kfzimg/303/3a5332fe7705876d_s.jpg",
-                name: "坏血：“女版乔布斯”如何利用欲望和贪婪打造出硅谷商业神话",
-                price: 18,
-                count: 1
-            }
-        ],
         // 添加到购物车的商品列表
         added: [{
                 id: 1,
@@ -118,7 +103,7 @@ export default new Vuex.Store({
             state.added.forEach(item => {
                 allprice += (item.price * item.count);
             })
-            return allprice;
+            return allprice.toFixed(2);
         },
         // 传入这个商品的id，返回单个商品的总的金额：数量*单价
         getPrice(state, id) {

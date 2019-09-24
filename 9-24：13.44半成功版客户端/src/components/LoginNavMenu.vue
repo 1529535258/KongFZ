@@ -7,50 +7,20 @@
       </div>
       <div class="user-info-box">
         <el-dropdown>
-          <span class="el-dropdown-link">登录/注册</span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
-              <router-link to="/loginRegister">
-                <div class="login-btn">
-                  登&nbsp;&nbsp;&nbsp;录
-                  <!-- 登&nbsp;&nbsp;&nbsp;录 -->
-                </div>
-              </router-link>
-            </el-dropdown-item>
-            <el-dropdown-item>
-              <router-link to="/aregister">
-                <div class="register-btn">
-                  免费注册
-                  <!-- 免费注册 -->
-                </div>
-              </router-link>
-            </el-dropdown-item>
-          </el-dropdown-menu>
+          <span class="el-dropdown-link">{{username}}</span>
         </el-dropdown>
         <el-dropdown>
           <span class="el-dropdown-link">
             <i class="el-icon-shopping-cart-2" style="fontSize:14px"></i>
             <!-- 购物车的路由 -->
-            购物车
+            <router-link to="/shop">购物车</router-link>
           </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>您的购物车是空的，</el-dropdown-item>
-            <el-dropdown-item>请先登录哦！</el-dropdown-item>
-            <el-dropdown-item>
-              <router-link to="/loginRegister">
-                <div class="login-btn">登&nbsp;&nbsp;&nbsp;录</div>
-              </router-link>
-            </el-dropdown-item>
-          </el-dropdown-menu>
         </el-dropdown>
         <el-dropdown>
           <span class="el-dropdown-link">我的订单</span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <el-dropdown-item>请先登录哦！</el-dropdown-item>
-              <router-link to="/loginRegister">
-                <div class="login-btn">进入我的订单</div>
-              </router-link>
+              <div class="login-btn">进入我的订单</div>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -58,10 +28,7 @@
           <span class="el-dropdown-link">个人中心</span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <el-dropdown-item>请先登录哦！</el-dropdown-item>
-              <router-link to="/loginRegister">
-                <div class="login-btn">进入个人中心</div>
-              </router-link>
+              <div class="login-btn">进入个人中心</div>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -69,7 +36,6 @@
           <span class="el-dropdown-link">{{admin}}</span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>
-              <el-dropdown-item>只有管理员才能进入哦！</el-dropdown-item>
               <div class="login-btn" @click="intoBm">管理员进入</div>
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -83,7 +49,8 @@
 export default {
   data: function() {
     return {
-      admin: "管理员"
+      admin: "管理员",
+      username: localStorage.getItem("username")
     };
   },
   methods: {
