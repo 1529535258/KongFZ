@@ -62,6 +62,16 @@ router.get('/getclassbycid', (req, res) => {
 });
 
 
+//模糊查询分类名称
+router.get('/searchclass', (req, res) => {
+    let cateModel = new CateModel();
+    let info = req.query.info;
+    cateModel.searchClass(info, (results) => {
+        console.log(results);
+        res.json(results);
+    });
+});
+
 
 
 //添加商品

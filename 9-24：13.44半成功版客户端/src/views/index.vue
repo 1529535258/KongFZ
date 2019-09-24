@@ -33,7 +33,8 @@
               <div class="left-tab" :style="dis">
                 <div class="left-tit">
                   <div class="left-tit-div">
-                    <i class="el-icon-arrow-right"></i>{{item[0].catename}}
+                    <i class="el-icon-arrow-right"></i>
+                    {{item[0].catename}}
                   </div>
                   <div class="left-content">
                     <ul>
@@ -56,7 +57,6 @@
                   </div>
                 </div>
               </div>
-
             </li>
           </ul>
           <!-- 侧边栏出现的二级菜单 -->
@@ -85,8 +85,7 @@
                 </ul>
               </div>
             </div>
-          </div> -->
-
+          </div>-->
         </div>
         <!-- 艺术品与收藏 -->
         <div class="list">
@@ -151,13 +150,7 @@
       <el-main>
         <!-- 孔夫子新书广场 -->
         <div class="freshbook">
-          <p>
-            孔夫子新书广场
-            <span>/</span>
-            <span>
-              <a href>进店逛逛</a>
-            </span>
-          </p>
+          <p>孔夫子新书广场</p>
           <ul class="db-list">
             <li v-for="(item,index) in book1" :key="index" class="freah-li">
               <div class="db-list-li fresh-li-div">
@@ -179,25 +172,25 @@
                       </div>
                     </span>
                     <span>
-                      欢迎
+                      签名
                       <div class="jiao">
                         <div class="jiao-inner"></div>
                       </div>
                     </span>
                     <span>
-                      限量
+                      铃印
                       <div class="jiao">
                         <div class="jiao-inner"></div>
                       </div>
                     </span>
                     <span>
-                      限量
+                      题词
                       <div class="jiao">
                         <div class="jiao-inner"></div>
                       </div>
                     </span>
                     <span>
-                      限量
+                      毛边本
                       <div class="jiao">
                         <div class="jiao-inner"></div>
                       </div>
@@ -229,8 +222,6 @@
           </a>
         </div>
         <!-- List为一个公共组件 list.vue   作为下面的三个模块 -->
-        <List></List>
-        <List></List>
         <List></List>
       </el-main>
     </el-container>
@@ -274,22 +265,13 @@ export default {
       this.axios
         .get("/class/getallclass")
         .then(response => {
-          // console.log(response.data);
-          // console.log(this.transformArr(response.data));
-          var arr1 = response.data.slice(0,24);
-          var arr2 = response.data.slice(24,36);
-          var arr3 = response.data.slice(36,44);
+          var arr1 = response.data.slice(0, 24);
+          var arr2 = response.data.slice(24, 36);
+          var arr3 = response.data.slice(36, 44);
 
           this.list1 = this.transformArr(arr1);
           this.list2 = this.transformArr(arr2);
           this.list3 = this.transformArr(arr3);
-          // console.log(this.list1);
-          // console.log(this.listbb);
-          // this.transformArr(response.data);
-          // this.bookinfo = response.data;
-          // if (this.bookinfo.length == 0) {
-          //   this.$message(this.msg);
-          // }
         })
         .catch(error => {
           console.log(error);
@@ -326,7 +308,7 @@ li {
   list-style: none;
 }
 body {
-  background-color: #f7f7f6;
+  /* background-color: #f7f7f6; */
 }
 @media only screen and (min-width: 1200px) {
   .index {
@@ -377,6 +359,7 @@ aside.el-aside {
   text-align: center;
   padding: 0;
 }
+
 .el-container > .el-main {
   padding-left: 0px;
   padding-right: 0px;

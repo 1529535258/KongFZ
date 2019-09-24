@@ -4,7 +4,7 @@
     <Header-Search></Header-Search>
     <Back-Top></Back-Top>
     <!-- <Nav></Nav> -->
-    <router-view/>
+    <router-view />
   </div>
 </template>
 <script>

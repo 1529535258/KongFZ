@@ -62,6 +62,21 @@ class CateModel extends DbBase {
 
 
 
+    searchClass(info, callback) {
+        let sql = `SELECT * FROM ${this.class} WHERE 1 `;
+        if (info) {
+            sql += `and catename like "%${info}%"`;
+        }
+        this.mydb.query(sql, (err, results) => {
+            if (err) {
+                callback(err);
+            } else {
+                callback(results);
+            }
+            this.mydb.end();
+        })
+    }
+
     // getGoodsByGid(gid,callback) {
     //     let sql = `SELECT * FROM ${this.goodstable} WHERE gid = ${gid}`;
     //     this.mydb.query(sql, (err, results) => {

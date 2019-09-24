@@ -25,13 +25,21 @@ router.get('/getallgoods', (req, res) => {
     });
 });
 
+//获取所有的已售商品信息
+router.get('/getsoldgoods', (req, res) => {
+    let cateModel = new CateModel();
+    cateModel.getSoldGoods((results) => {
+        res.json(results);
+    });
+});
+
+
 
 //获取指定bid的商品信息
 router.get('/getgoodsbybid', (req, res) => {
     let cateModel = new CateModel();
     let bid = req.query.bid;
     cateModel.getGoodsByGid(bid, (results) => {
-        console.log(results);
         res.json(results);
     });
 });
@@ -43,7 +51,6 @@ router.get('/deletegoodsbybid', (req, res) => {
     let bid = req.query.bid;
     console.log(req.query.bid);
     cateModel.deleteGoodsByBid(bid, (results) => {
-        console.log(results);
         if (results.affectedRows) {
             res.json({ code: 1, Msg: '操作成功' });
         } else {
@@ -57,13 +64,19 @@ router.get('/deletegoodsbybid', (req, res) => {
 router.get('/searchgoods', (req, res) => {
     let cateModel = new CateModel();
     let bookname = req.query.bookname;
-    console.log(bookname);
     cateModel.searchGoods(bookname, (results) => {
-        console.log(results);
         res.json(results);
     });
 });
 
+//模糊查询已售商品信息
+router.get('/searchsoldgoods', (req, res) => {
+    let cateModel = new CateModel();
+    let info = req.query.info;
+    cateModel.searchSoldGoods(info, (results) => {
+        res.json(results);
+    });
+});
 
 //添加商品分类
 // router.post('/addgoodscate', (req, res) => {

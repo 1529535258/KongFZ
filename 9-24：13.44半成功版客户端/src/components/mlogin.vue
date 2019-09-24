@@ -78,6 +78,7 @@ export default {
     };
 
     return {
+      username:"",
       flag: false,
       num: 0,
       theight: "0px",
@@ -109,7 +110,7 @@ export default {
             })
             .then((response)=>{
               this.tips=response.data.code;
-              // window.location.href="https://www.baidu.com";  //直接跳转到百度
+              this.username = response.data.Info[0].username;
             })
             .catch(function(error) {
               console.log(error);
@@ -130,7 +131,7 @@ export default {
         if (valid) {
         this.myaxios();
          if(this.tips==1){
-                 this.$router.push({path:'/aregister'}); //跳转带知道路由
+                 this.$router.push({path:`/index`}); //跳转带知道路由
               }
         } else {
           console.log("error submit!!");

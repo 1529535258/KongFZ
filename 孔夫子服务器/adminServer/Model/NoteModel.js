@@ -4,9 +4,73 @@ class CateModel extends DbBase {
         super();
         this.books = 'books';
         this.soldgoods = 'sold';
+        this.film = 'film';
+        this.market = 'market'
     }
 
-    addgoods(cateinfo, callback) {
+    getAllCate(page, limitnum, callback) {
+        // SQL语句用分号结束
+        let countsql = `SELECT COUNT(*) as nums FROM  ${this.film} WHERE 1;`;
+        let sql = `SELECT * FROM  ${this.film} WHERE 1 LIMIT ${(page - 1) * limitnum}, ${limitnum};`;
+        this.mydb.query(countsql + sql, (err, results) => {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                callback(results);
+            }
+            this.mydb.end();
+        });
+    }
+
+
+    //获取书界新闻动态信息
+    getCateByCid(cid, callback) {
+        let sql = `SELECT * FROM  ${this.film} WHERE bid = ?`;
+        this.mydb.query(sql, [cid], (err, results) => {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                callback(results);
+            }
+            this.mydb.end();
+        });
+    }
+
+
+    //获取市场详细动态信息
+    getwCateByCid(cid, callback) {
+        let sql = `SELECT * FROM  market WHERE bid = ?`;
+        this.mydb.query(sql, [cid], (err, results) => {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                callback(results);
+            }
+            this.mydb.end();
+        });
+    }
+
+    getmAllCate(page, limitnum, callback) {
+        // SQL语句用分号结束
+        let countsql = `SELECT COUNT(*) as nums FROM  ${this.film} WHERE 1;`;
+        let sql = `SELECT * FROM  market WHERE 1 LIMIT ${(page - 1) * limitnum}, ${limitnum};`;
+        this.mydb.query(countsql + sql, (err, results) => {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                callback(results);
+            }
+            this.mydb.end();
+        });
+    }
+
+
+
+    addnote(cateinfo, callback) {
         let fieldstr = '', field = '';
         let data = [];
         let isFirst = true;
@@ -18,8 +82,9 @@ class CateModel extends DbBase {
             }
             isFirst = false;
         }
-        // console.log(fieldstr,data);
-        let sql = `INSERT INTO ${this.books}(${fieldstr}) VALUES (${field})`;
+        console.log(fieldstr);
+        console.log(field);
+        let sql = `INSERT INTO ${this.market}(${fieldstr}) VALUES (${field})`;
         this.mydb.query(sql, data, (err, results) => {
             if (err) {
                 console.log(err);
@@ -32,8 +97,8 @@ class CateModel extends DbBase {
     }
 
 
-    getAllGoods(callback) {
-        let sql = `SELECT * FROM ${this.books}`;
+    getAllNote(callback) {
+        let sql = `SELECT * FROM ${this.film}`;
         this.mydb.query(sql, (err, results) => {
             if (err) {
                 console.log(err);
@@ -45,11 +110,10 @@ class CateModel extends DbBase {
         })
     }
 
-    getSoldGoods(callback) {
-        let sql = `SELECT * FROM ${this.soldgoods}`;
+    deleteNoteByBid(bid, callback) {
+        let sql = `DELETE FROM ${this.film} WHERE bid = ${bid}`;
         this.mydb.query(sql, (err, results) => {
             if (err) {
-                console.log(err);
                 callback(err);
             } else {
                 callback(results);
@@ -59,10 +123,10 @@ class CateModel extends DbBase {
     }
 
 
-    searchSoldGoods(info, callback) {
-        let sql = `SELECT * FROM ${this.soldgoods} WHERE 1 `;
+    searchNote(info, callback) {
+        let sql = `SELECT * FROM ${this.film} WHERE 1 `;
         if (info) {
-            sql += `and bookname like "%${info}%"`;
+            sql += `and filmname like "%${info}%"`;
         }
         this.mydb.query(sql, (err, results) => {
             if (err) {
@@ -74,44 +138,121 @@ class CateModel extends DbBase {
         })
     }
 
-    getGoodsByGid(bid, callback) {
-        let sql = `SELECT * FROM ${this.books} WHERE bid = ${bid}`;
-        this.mydb.query(sql, (err, results) => {
-            if (err) {
-                callback(err);
-            } else {
-                callback(results);
-            }
-            this.mydb.end();
-        })
-    }
 
-    deleteGoodsByBid(bid, callback) {
-        let sql = `DELETE FROM ${this.books} WHERE bid = ${bid}`;
-        this.mydb.query(sql, (err, results) => {
-            if (err) {
-                callback(err);
-            } else {
-                callback(results);
-            }
-            this.mydb.end();
-        })
-    }
 
-    searchGoods(bookname, callback) {
-        let sql = `SELECT * FROM ${this.books} WHERE 1 `;
-        if (bookname) {
-            sql += `and bookname like "%${bookname}%"`;
-        }
-        this.mydb.query(sql, (err, results) => {
-            if (err) {
-                callback(err);
-            } else {
-                callback(results);
-            }
-            this.mydb.end();
-        })
-    }
+
+
+
+
+
+
+
+    // addgoods(cateinfo, callback) {
+    //     let fieldstr = '', field = '';
+    //     let data = [];
+    //     let isFirst = true;
+    //     for (const f in cateinfo) {
+    //         if (cateinfo.hasOwnProperty(f)) {
+    //             fieldstr += (isFirst ? '' : ',') + f;
+    //             field += (isFirst ? '' : ',') + '?';
+    //             data.push(cateinfo[f]);//组装字段对应的值
+    //         }
+    //         isFirst = false;
+    //     }
+    //     // console.log(fieldstr,data);
+    //     let sql = `INSERT INTO ${this.books}(${fieldstr}) VALUES (${field})`;
+    //     this.mydb.query(sql, data, (err, results) => {
+    //         if (err) {
+    //             console.log(err);
+    //             callback(err);
+    //         } else {
+    //             callback(results);
+    //         }
+    //         this.mydb.end();
+    //     })
+    // }
+
+
+    // getAllGoods(callback) {
+    //     let sql = `SELECT * FROM ${this.books}`;
+    //     this.mydb.query(sql, (err, results) => {
+    //         if (err) {
+    //             console.log(err);
+    //             callback(err);
+    //         } else {
+    //             callback(results);
+    //         }
+    //         this.mydb.end();
+    //     })
+    // }
+
+    // getSoldGoods(callback) {
+    //     let sql = `SELECT * FROM ${this.soldgoods}`;
+    //     this.mydb.query(sql, (err, results) => {
+    //         if (err) {
+    //             console.log(err);
+    //             callback(err);
+    //         } else {
+    //             callback(results);
+    //         }
+    //         this.mydb.end();
+    //     })
+    // }
+
+
+    // searchSoldGoods(info, callback) {
+    //     let sql = `SELECT * FROM ${this.soldgoods} WHERE 1 `;
+    //     if (info) {
+    //         sql += `and bookname like "%${info}%"`;
+    //     }
+    //     this.mydb.query(sql, (err, results) => {
+    //         if (err) {
+    //             callback(err);
+    //         } else {
+    //             callback(results);
+    //         }
+    //         this.mydb.end();
+    //     })
+    // }
+
+    // getGoodsByGid(bid, callback) {
+    //     let sql = `SELECT * FROM ${this.books} WHERE bid = ${bid}`;
+    //     this.mydb.query(sql, (err, results) => {
+    //         if (err) {
+    //             callback(err);
+    //         } else {
+    //             callback(results);
+    //         }
+    //         this.mydb.end();
+    //     })
+    // }
+
+    // deleteGoodsByBid(bid, callback) {
+    //     let sql = `DELETE FROM ${this.books} WHERE bid = ${bid}`;
+    //     this.mydb.query(sql, (err, results) => {
+    //         if (err) {
+    //             callback(err);
+    //         } else {
+    //             callback(results);
+    //         }
+    //         this.mydb.end();
+    //     })
+    // }
+
+    // searchGoods(bookname, callback) {
+    //     let sql = `SELECT * FROM ${this.books} WHERE 1 `;
+    //     if (bookname) {
+    //         sql += `and bookname like "%${bookname}%"`;
+    //     }
+    //     this.mydb.query(sql, (err, results) => {
+    //         if (err) {
+    //             callback(err);
+    //         } else {
+    //             callback(results);
+    //         }
+    //         this.mydb.end();
+    //     })
+    // }
 
 
     // getAllGoods(callback) {

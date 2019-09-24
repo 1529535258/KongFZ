@@ -7,7 +7,7 @@
       <div class="left">
         <div class="article">
           <p>
-            好书推荐
+            国学今典
             <span>/</span>
             <span>
               <a href>更多</a>
@@ -15,26 +15,18 @@
           </p>
         </div>
         <ul>
-          <li v-for="(item,index) of list1" :key="index">
-            <a href>
-              <img
-                src="https://booklibimg.kfzimg.com/data/book_lib_img_v2/isbn/1/1916/19169ed2eb117aa84395046b7d3a46de_0_1_300_300.jpg"
-                alt
-                class="a-img"
-              />
-            </a>
-            <a href>
+          <li v-for="(item,index) of tableData" :key="index">
+            <router-link :to="'Item?bid='+item.bid">
+              <img :src="item.imgs" class="a-img" />
               <p class="a-title">春秋左传注（全四册）</p>
-            </a>
-            <a href>
               <p class="a-name">杨伯峻</p>
-            </a>
-            <p class="gallery-main-product-price">
-              <i>
-                <span style="font-size:14px;color: #bf7f5f;">￥</span>35.00
-              </i>
-              <span>起</span>
-            </p>
+              <p class="gallery-main-product-price">
+                <i>
+                  <span style="font-size:14px;color: #bf7f5f;">￥</span>35.00
+                </i>
+                <span>起</span>
+              </p>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -107,19 +99,25 @@ export default {
         { name: "《年方六千：文物的故事》", price: "33", athor: "郑岩" },
         { name: "《年方六千：文物的故事》", price: "33", athor: "郑岩" }
       ],
-      list1: [
-        ["1", "2", "3"],
-        ["3", "2", "3"],
-        ["4", "2", "3"],
-        ["4", "2", "3"],
-        ["4", "2", "3"],
-        ["4", "2", "3"],
-        ["4", "2", "3"],
-        ["4", "2", "3"],
-        ["4", "2", "3"],
-        ["4", "2", "3"]
-      ]
+      tableData: ""
     };
+  },
+  methods: {
+    getAllGoods() {
+      this.axios
+        .get("/goods/getallgoods")
+        .then(response => {
+          response.data = response.data.slice(12, 22);
+          this.tableData = response.data;
+          console.log(this.tableData);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+  },
+  created() {
+    this.getAllGoods();
   }
 };
 </script>
@@ -148,6 +146,9 @@ export default {
 }
 .listbook-bottom > .a-right {
   width: 30%;
+}
+.article {
+  margin-top: 30px;
 }
 .article a {
   font-size: 12px;
@@ -178,7 +179,7 @@ export default {
   flex-direction: column;
 }
 .a-img {
-  width: 140px;
+  width: 120px;
   height: 140px;
 }
 .a-title {

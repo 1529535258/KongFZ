@@ -407,7 +407,6 @@ a:hover {
   overflow: hidden;
 }
 .price {
-  margin-top: 20px;
   font-size: 16px;
   color: #bf7f5f;
 }
@@ -453,7 +452,7 @@ a:hover {
   float: left;
   font-size: 12px;
   line-height: 13px;
-  height: 13px;
+  height: 22px;
   border: 1px solid #dfc49b;
   padding: 5px 6px;
   color: #c28f42;

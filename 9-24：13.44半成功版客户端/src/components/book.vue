@@ -36,8 +36,8 @@ export default {
       this.axios
         .get("/goods/getallgoods")
         .then(response => {
+          response.data = response.data.slice(0,12);
           this.tableData = response.data;
-          console.log(this.tableData);
         })
         .catch(function(error) {
           console.log(error);

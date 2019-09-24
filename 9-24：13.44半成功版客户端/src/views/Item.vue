@@ -35,14 +35,6 @@
                   <h4>内容简介:{{bookinfo.book_intro}}</h4>
                   <p></p>
                 </li>
-                <li>
-                  <h4>作者简介:</h4>
-                  <p></p>
-                </li>
-                <li>
-                  <h4>目录:</h4>
-                  <p></p>
-                </li>
               </ul>
             </div>
           </div>
@@ -58,7 +50,7 @@
           </div>
         </div>
       </div>
-      <div class="recommend-box">
+      <!-- <div class="recommend-box">
         <div class="recommend-title">好书推荐</div>
         <div class="recommend-list">
           <ul>
@@ -72,7 +64,8 @@
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
+      <List></List>
     </div>
   </div>
 </template>
