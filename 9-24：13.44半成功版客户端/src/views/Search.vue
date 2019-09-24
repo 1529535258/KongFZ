@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <Back-Top :bottom="60"></Back-Top>
+    <!-- <Back-Top :bottom="60"></Back-Top> -->
     <div class="header-tab">
       <div class="tips">所有商品</div>
     </div>
@@ -18,43 +18,43 @@
         <div class="filter-box">
           <dl>
             <dt>孔网特色</dt>
-            <dd>期刊（）</dd>
-            <dd>名人墨迹（）</dd>
-            <dd>外文原版（）</dd>
+            <dd>期刊（1755）</dd>
+            <dd>名人墨迹（1434）</dd>
+            <dd>外文原版（343）</dd>
           </dl>
           <dl>
             <dt>孔网特色</dt>
-            <dd>期刊（）</dd>
-            <dd>名人墨迹（）</dd>
-            <dd>外文原版（）</dd>
+            <dd>期刊（5424）</dd>
+            <dd>名人墨迹（243）</dd>
+            <dd>外文原版（986）</dd>
           </dl>
         </div>
         <div class="result-content">
           <span>图书条目</span>
           <ul>
-            <li>
+            <li v-for="book in bookInfo" :key="book.bid">
               <div class="item">
-                <div class="item-img" @click="toBookInfo">
+                <div class="item-img" :bid="book.bid" @click="toBookInfo(book.bid)">
                   <div class="img-box">
-                    <img src="../assets/logo.png" alt />
+                    <img :src="book.imgs" alt="图片区火星了..." />
                   </div>
                   <div class="big-img-box">
-                    <img src="../assets/logo.png" alt />
+                    <img :src="book.imgs" alt />
                   </div>
                 </div>
                 <div class="item-info">
-                  <div class="title">三体</div>
+                  <div class="title">{{book.bookname}}</div>
                   <el-breadcrumb separator="/">
-                    <el-breadcrumb-item>作者 著</el-breadcrumb-item>
-                    <el-breadcrumb-item>ISBN</el-breadcrumb-item>
-                    <el-breadcrumb-item>出版社</el-breadcrumb-item>
-                    <el-breadcrumb-item>出版时间</el-breadcrumb-item>
-                    <el-breadcrumb-item>版次</el-breadcrumb-item>
-                    <el-breadcrumb-item>价格</el-breadcrumb-item>
-                    <el-breadcrumb-item>类型</el-breadcrumb-item>
+                    <el-breadcrumb-item>作者 {{book.author}}著</el-breadcrumb-item>
+                    <el-breadcrumb-item>ISBN {{book.ISBN}}</el-breadcrumb-item>
+                    <el-breadcrumb-item>出版社 {{book.book_company}}</el-breadcrumb-item>
+                    <el-breadcrumb-item>出版时间 {{book.book_date.substr(0,10)}}</el-breadcrumb-item>
+                    <el-breadcrumb-item>版次 {{book.book_edition}}</el-breadcrumb-item>
+                    <el-breadcrumb-item>价格 {{book.price}} 元</el-breadcrumb-item>
+                    <el-breadcrumb-item>类型 {{book.book_type}}</el-breadcrumb-item>
                   </el-breadcrumb>
                   <div class="bookinfo">
-                    <p>书本简介 ：</p>
+                    <p>书本简介 ： {{book.book_intro.substr(0,130)}} ...</p>
                   </div>
                 </div>
               </div>
@@ -63,6 +63,13 @@
         </div>
       </div>
     </div>
+
+    <!-- 页脚 -->
+    <!-- <el-container> -->
+    <div class="footer">
+      <foter></foter>
+    </div>
+    <!-- </el-container> -->
   </div>
 </template>
 
@@ -71,21 +78,22 @@
 export default {
   data() {
     return {
-      results: "555",
-      content: "555",
+      results: "",
+      content: "",
       bookInfo: [],
       bookname: ""
     };
   },
   created: function() {
     this.bookname = this.$route.query.bookname;
+    this.content = this.$route.query.bookname;
     console.log(this.bookname);
     this.axiosFindInfo();
   },
   methods: {
     axiosFindInfo: function() {
       this.axios
-        .get("/book/getBookinfo", {
+        .get("/goods/searchgoods", {
           params: {
             bookname: this.bookname
           }
@@ -93,6 +101,7 @@ export default {
         .then(response => {
           console.log(response.data);
           this.bookInfo = response.data;
+          this.results = response.data.length;
           // this.bookinfo = response.data;
           // if (this.bookinfo.length == 0) {
           //   this.$message(this.msg);
@@ -102,8 +111,9 @@ export default {
           console.log(error);
         });
     },
-    toBookInfo: function() {
-      this.$router.push({ path: "/item", query: { bid: "666" } }).catch(err => {
+    toBookInfo: function(bid) {
+      // console.log(bid)
+      this.$router.push({ path: "/item", query: { bid: bid } }).catch(err => {
         console.log(err);
       });
     }
@@ -129,6 +139,9 @@ ul li {
   .search-wrap {
     width: 1200px;
   }
+  .footer {
+    width: 1200px;
+  }
 }
 @media only screen and (max-width: 1199px) {
   .header-tab {
@@ -137,6 +150,12 @@ ul li {
   .search-wrap {
     width: 1000px;
   }
+  .footer {
+    width: 1000px;
+  }
+}
+.footer {
+  margin: 0 auto;
 }
 
 .header-tab {
@@ -164,6 +183,7 @@ ul li {
 
 .crumbs-bar {
   padding-top: 20px;
+  padding-left: 20px;
   margin-bottom: 8px;
   color: #333;
   background-color: #fff;
@@ -172,8 +192,8 @@ ul li {
 }
 
 .el-breadcrumb {
-  height: 42px;
-  line-height: 42px;
+  /* height: 42px; */
+  line-height: 32px;
 }
 
 .filter-box {

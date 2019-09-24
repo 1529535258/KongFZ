@@ -7,8 +7,14 @@
           <div class="detail-con-left">
             <div class="detail-img">
               <a href>
-                <img :src="bookinfo.imgs" alt />
+                <img :src="bookinfo.imgs" alt="图片去火星了..." :title="bookinfo.bookname" />
               </a>
+            </div>
+          </div>
+          <div class="btns">
+            <div class="go-buy" @click="toShop">立即购买</div>
+            <div class="add-cart" @click="openMsg">
+              <i class="el-icon-shopping-cart-2" style="fontSize:14px"></i>加入购物车
             </div>
           </div>
           <div class="detail-con-right">
@@ -35,14 +41,14 @@
                   <h4>内容简介:{{bookinfo.book_intro}}</h4>
                   <p></p>
                 </li>
-                <li>
+                <!-- <li>
                   <h4>作者简介:</h4>
                   <p></p>
                 </li>
                 <li>
                   <h4>目录:</h4>
                   <p></p>
-                </li>
+                </li>-->
               </ul>
             </div>
           </div>
@@ -51,9 +57,7 @@
           <div class="detail-other-title">相关分类</div>
           <div class="detail-other-con">
             <ul>
-              <li>文学</li>
-              <li>文学</li>
-              <li>文学</li>
+              <li v-for="someclass in bookclass" :key="someclass.cid">{{someclass.catename}}</li>
             </ul>
           </div>
         </div>
@@ -62,18 +66,30 @@
         <div class="recommend-title">好书推荐</div>
         <div class="recommend-list">
           <ul>
-            <li>
+            <li
+              v-for="bookinfo in bookinfolist"
+              :key="bookinfo.bid"
+              @click="toBookInfo(bookinfo.bid)"
+            >
               <div class="recommend-list-pic">
-                <img src="../assets/logo.png" alt />
+                <img :src="bookinfo.imgs" alt />
               </div>
-              <div class="recommend-list-title">wen</div>
-              <div class="recommend-list-author">wen 著</div>
-              <div class="recommend-list-price">￥wen起</div>
+              <div class="recommend-list-title">{{bookinfo.bookname}}</div>
+              <div class="recommend-list-author">{{bookinfo.author}}} 著</div>
+              <div class="recommend-list-price">￥{{bookinfo.price}}起</div>
             </li>
           </ul>
         </div>
       </div>
+      <!-- <List></List> -->
     </div>
+
+    <!-- 页脚 -->
+    <!-- <el-container> -->
+    <div class="footer">
+      <foter></foter>
+    </div>
+    <!-- </el-container> -->
   </div>
 </template>
     
@@ -81,13 +97,16 @@
 export default {
   data() {
     return {
-      bookinfo: ""
+      bookinfo: [],
+      bookclass: [],
+      bookinfolist: []
     };
   },
   methods: {
     getGoodsByid() {
       let search = window.location.search;
       let bid = search.split("=").pop();
+      // console.log(this.$route.query.bid);
       this.axios
         .get("/goods/getgoodsbybid", {
           params: {
@@ -95,16 +114,61 @@ export default {
           }
         })
         .then(response => {
-          response.data[0].book_date = response.data[0].book_date.substring(0,10);
+          response.data[0].book_date = response.data[0].book_date.substring(
+            0,
+            10
+          );
           this.bookinfo = response.data[0];
         })
         .catch(function(error) {
           console.log(error);
         });
+    },
+    toBookInfo: function(bid) {
+      // console.log(bid);
+      this.$router.push({ path: "/item", query: { bid: bid } }).catch(err => {
+        console.log(err);
+      });
+    },
+    openMsg: function() {
+      this.$message({
+        message: "恭喜你，添加成功！",
+        type: "success"
+      });
+    },
+    toShop: function() {
+      // this.$router.push({ path: "/item", query: { bid: bid } }).catch(err => {
+      //   console.log(err);
+      // });
     }
   },
   created() {
-    this.getGoodsByid();
+    // this.getGoodsByid();
+    // console.log(this.$route.query.bid);
+    var that = this;
+    function getGoodsByid() {
+      return that.axios.get(
+        `/goods/getgoodsbybid?bid=${that.$route.query.bid}`
+      );
+    }
+    function getAllClass() {
+      return that.axios.get("/class/getallclass");
+    }
+    function getAllGoods() {
+      return that.axios.get("/goods/getallgoods");
+    }
+    this.axios.all([getGoodsByid(), getAllClass(), getAllGoods()]).then(
+      this.axios.spread(function(acct, perms, thrid) {
+        // 两个请求现在都执行完成
+        // console.log(acct.data);
+        that.bookinfo = acct.data[0];
+        // console.log(perms.data.slice(0,10));
+        that.bookclass = perms.data.slice(0, 13);
+        // console.log(thrid.data);
+        that.bookinfolist = thrid.data.slice(0, 12);
+        // console.log(that.bookinfo);
+      })
+    );
   }
 };
 </script>>
@@ -119,6 +183,19 @@ body {
 ul li {
   list-style: none;
 }
+@media only screen and (min-width: 1200px) {
+  .footer {
+    width: 1200px;
+  }
+}
+@media only screen and (max-width: 1199px) {
+  .footer {
+    width: 1000px;
+  }
+}
+.footer {
+  margin: 0 auto;
+}
 
 .detail-wrap {
   position: relative;
@@ -126,7 +203,7 @@ ul li {
   min-height: 100%;
   margin: 0 auto;
   overflow: hidden;
-  padding-bottom: 140px;
+  padding-bottom: 10px;
 }
 
 .detail::after {
@@ -143,7 +220,57 @@ ul li {
   font-size: 20px;
 }
 
+.btns {
+  width: 160px;
+  position: absolute;
+  top: 200px;
+  left: 0;
+}
+
+.btns button {
+  display: inline-block;
+}
+
+.go-buy {
+  overflow: hidden;
+  width: 160px;
+  border-radius: 2px;
+  background-color: #f8f7f3;
+  color: #8c222c;
+  cursor: pointer;
+  border: 1px solid #8c222c;
+  height: 40px;
+  font-size: 14px;
+  line-height: 38px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.go-buy:hover {
+  background-color: #fff;
+}
+
+.add-cart {
+  overflow: hidden;
+  width: 160px;
+  border-radius: 2px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #8c222c;
+  height: 40px;
+  font-size: 14px;
+  line-height: 38px;
+  text-align: center;
+  box-sizing: border-box;
+  margin-top: 17px;
+}
+
+.add-cart:hover {
+  background-color: #7b111b;
+}
+
 .detail-con {
+  position: relative;
   float: left;
   width: 706px;
 }
@@ -272,7 +399,7 @@ ul li {
 
 .recommend-list .recommend-list-pic img {
   display: inline-block;
-  width: 100%;
+  /* width: 100%; */
   height: 100%;
   vertical-align: middle;
 }

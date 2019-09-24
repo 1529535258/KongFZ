@@ -2,7 +2,7 @@
   <div id="app">
     <Nav-Menu></Nav-Menu>
     <Header-Search></Header-Search>
-    <Back-Top></Back-Top>
+    <Back-Top :bottom="100"></Back-Top>
     <!-- <Nav></Nav> -->
     <router-view/>
   </div>
