@@ -26,7 +26,9 @@
         </el-dropdown>
         <el-dropdown>
           <span class="el-dropdown-link">
-            <i class="el-icon-shopping-cart-2" style="fontSize:14px"></i>购物车
+            <i class="el-icon-shopping-cart-2" style="fontSize:14px"></i>
+            <!-- 购物车的路由 -->
+            <router-link to="/shop">购物车</router-link>
           </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>您的购物车是空的，</el-dropdown-item>
